@@ -315,12 +315,94 @@ public class RenderBlocks
         {
             return renderBlockEndPortalFrame(block, i, j, k);
         }
+        if(l == 28)
+        {
+           return renderBlockMuret((BlockMuret)block, i, j, k);
+        }
         else
         {
             return false;
         }
     }
+    
+    public boolean renderBlockMuret(BlockMuret block, int i, int j, int k)
+    {
+        float WallOffset = 0.3F;
+        float WallWidth = 0.7F;
+        float WallBottom = 0.0F;
+        float WallHeight = 0.8F;
 
+        float postOffset = 0.2F;
+        float postWidth = 0.8F;
+        float postHeight = 1.0F;
+
+        boolean west = block.isFenceAt(blockAccess, i - 1, j, k);
+        boolean east = block.isFenceAt(blockAccess, i + 1, j, k);
+        boolean south = block.isFenceAt(blockAccess, i, j, k - 1);
+        boolean north = block.isFenceAt(blockAccess, i, j, k + 1);
+        boolean up = block.isFenceAt(blockAccess, i, j + 1, k);
+        boolean down = block.isFenceAt(blockAccess, i, j - 1, k);
+
+        boolean upperWest = block.isFenceAt(blockAccess, i - 1, j + 1, k);
+        boolean upperEast = block.isFenceAt(blockAccess, i + 1, j + 1, k);
+        boolean upperSouth = block.isFenceAt(blockAccess, i, j + 1, k - 1);
+        boolean upperNorth = block.isFenceAt(blockAccess, i, j + 1, k + 1);
+
+        if ((north) && (south) && (!east) && (!west) && (!up))
+        {
+           block.setBlockBounds(WallOffset, WallBottom, 0.0F, WallWidth, WallHeight, 1.0F);
+           renderStandardBlock(block, i, j, k);
+        }
+        else if ((east) && (west) && (!north) && (!south) && (!up))
+        {
+           block.setBlockBounds(0.0F, WallBottom, WallOffset, 1.0F, WallHeight, WallWidth);
+           renderStandardBlock(block, i, j, k);
+        }
+        else if ((up) && (east) && (west) && (upperEast) && (upperWest) && (!upperNorth) && (!upperSouth)) {
+          WallHeight = 1.0F;
+          block.setBlockBounds(0.0F, WallBottom, WallOffset, 1.0F, WallHeight, WallWidth);
+          renderStandardBlock(block, i, j, k);
+        }
+        else if ((up) && (north) && (south) && (upperSouth) && (upperNorth) && (!upperEast) && (!upperWest)) {
+          WallHeight = 1.0F;
+          block.setBlockBounds(WallOffset, WallBottom, 0.0F, WallWidth, WallHeight, 1.0F);
+          renderStandardBlock(block, i, j, k);
+        }
+        else
+        {
+           block.setBlockBounds(postOffset, 0.0F, postOffset, postWidth, postHeight, postWidth);
+           renderStandardBlock(block, i, j, k);
+
+          if (west) {
+            if ((up) && (upperWest)) WallHeight = 1.0F;
+            block.setBlockBounds(0.0F, WallBottom, WallOffset, WallWidth, WallHeight, WallWidth);
+            renderStandardBlock(block, i, j, k);
+            WallHeight = 0.8F;
+          }
+          if (east) {
+            if ((up) && (upperEast)) WallHeight = 1.0F;
+            block.setBlockBounds(WallOffset, WallBottom, WallOffset, 1.0F, WallHeight, WallWidth);
+            renderStandardBlock(block, i, j, k);
+            WallHeight = 0.8F;
+          }
+          if (north) {
+            if ((up) && (upperNorth)) WallHeight = 1.0F;
+            block.setBlockBounds(WallOffset, WallBottom, WallOffset, WallWidth, WallHeight, 1.0F);
+            renderStandardBlock(block, i, j, k);
+            WallHeight = 0.8F;
+          }
+          if (south) {
+            if ((up) && (upperSouth)) WallHeight = 1.0F;
+            block.setBlockBounds(WallOffset, WallBottom, 0.0F, WallWidth, WallHeight, WallWidth);
+            renderStandardBlock(block, i, j, k);
+            WallHeight = 0.8F;
+          }
+
+        }
+
+        block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+        return true;
+    }
     private boolean renderBlockEndPortalFrame(Block block, int i, int j, int k)
     {
         int l = blockAccess.getBlockMetadata(i, j, k);
@@ -5343,7 +5425,40 @@ public class RenderBlocks
 
             block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         }
+        if(k == 28)
+        {
+            block.setBlockBounds(0.0F, 0.0F, 0.3F, 1.0F, 0.8F, 0.7F);
+            GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+            tessellator.startDrawingQuads();
+            tessellator.setNormal(0.0F, -1.0F, 0.0F);
+            renderBottomFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(0));
+            tessellator.draw();
+            tessellator.startDrawingQuads();
+            tessellator.setNormal(0.0F, 1.0F, 0.0F);
+            renderTopFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(1));
+            tessellator.draw();
+            tessellator.startDrawingQuads();
+            tessellator.setNormal(0.0F, 0.0F, -1.0F);
+            renderEastFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(2));
+            tessellator.draw();
+            tessellator.startDrawingQuads();
+            tessellator.setNormal(0.0F, 0.0F, 1.0F);
+            renderWestFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(3));
+            tessellator.draw();
+            tessellator.startDrawingQuads();
+            tessellator.setNormal(-1.0F, 0.0F, 0.0F);
+            renderNorthFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(4));
+            tessellator.draw();
+            tessellator.startDrawingQuads();
+            tessellator.setNormal(1.0F, 0.0F, 0.0F);
+            renderSouthFace(block, 0.0D, 0.0D, 0.0D, block.getBlockTextureFromSide(5));
+            tessellator.draw();
+            GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+
+            block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+        }     
     }
+   
 
     public static boolean renderItemIn3d(int i)
     {
@@ -5375,6 +5490,12 @@ public class RenderBlocks
         {
             return true;
         }
+        if(i == 28)
+        {
+           return true;
+        }
         return i == 16;
+      
     }
+    
 }

@@ -149,6 +149,7 @@ public class Item
     public static Item record11 = (new ItemRecord(2010, "11")).setIconCoord(10, 15).setItemName("record");
     //iCraftEvo Begin TODO
     public static Item dummy;
+    public static Item stickIron = (new Item(1000)).setIconCoord(6, 7).setFull3D().setItemName("stickIron");    
     //iCraftEvo End
     public final int shiftedIndex;
     protected int maxStackSize;

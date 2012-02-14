@@ -301,6 +301,36 @@ public class CraftingManager
                 {
                     Item.enderPearl, Item.blazePowder
                 });
+        //IcraftEvo TODO
+        addRecipe(new ItemStack(Item.stickIron, 4), new Object[]
+                {
+                    " # ", " # ", Character.valueOf('#'), Item.ingotIron
+                });
+        addRecipe(new ItemStack(Block.lampadaire, 2), new Object[]
+                {
+                   "XXX", "X#X", "XXX", Character.valueOf('#'), Block.glowStone, Character.valueOf('X'), Item.stickIron,
+                });
+        addRecipe(new ItemStack(Item.dummy, 1), new Object[]
+                {
+                   " A ", "X#X", " X ", Character.valueOf('#'), Item.plateLeather, Character.valueOf('X'), Item.stick, Character.valueOf('A'), Block.cloth,
+                });
+        addRecipe(new ItemStack(Block.muret, 2), new Object[]
+                {
+                   "##", Character.valueOf('#'), Block.stoneBrick
+                });
+        addRecipe(new ItemStack(Block.jump, 1), new Object[]
+                {
+                 "IAI", "#X#", "###", Character.valueOf('#'), Block.planks, Character.valueOf('X'), Item.slimeBall, Character.valueOf('I'), Item.silk, Character.valueOf('A'), Item.leather,
+                });
+        addRecipe(new ItemStack(Block.fenceFer, 2), new Object[]
+                {
+                  "###", "###", Character.valueOf('#'), Item.stickIron
+                });
+        addRecipe(new ItemStack(Block.barrel, 1), new Object[]
+                {
+                  "#X#", "#X#", Character.valueOf('#'), Item.stickIron, Character.valueOf('X'), Block.planks,
+                });   
+        //IcraftEvo 
         Collections.sort(recipes, new RecipeSorter(this));
         System.out.println((new StringBuilder()).append(recipes.size()).append(" recipes").toString());
     }

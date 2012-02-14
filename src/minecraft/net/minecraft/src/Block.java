@@ -150,6 +150,7 @@ public class Block
     public static final Block lampadaire;
     public static final Block fenceFer;
     public static final Block barrel;
+    public static final Block muret;
     //iCraftEvo End
     public int blockIndexInTexture;
     public final int blockID;
@@ -939,6 +940,7 @@ public class Block
         lampadaire = (new BlockGlowStone(123, 30, Material.glass)).setHardness(0.3F).setStepSound(soundGlassFootstep).setLightValue(1.0F).setBlockName("lampadaire"); //image à côté du champignon
         fenceFer = (new BlockFence(124, 22)).setHardness(2.0F).setResistance(5F).setStepSound(soundWoodFootstep).setBlockName("fenceFer");
         barrel = (new BlockBarrel(141, 229)).setHardness(2.0F).setResistance(5F).setStepSound(soundWoodFootstep).setBlockName("Tonneau"); // 2 images à la suite à côté des chanpignons du nether. 
+        muret = (new BlockMuret(255, stoneBrick));
         //iCraftEvo End
         Item.itemsList[cloth.blockID] = (new ItemCloth(cloth.blockID - 256)).setItemName("cloth");
         Item.itemsList[wood.blockID] = (new ItemMetadata(wood.blockID - 256, wood)).setItemName("log");
